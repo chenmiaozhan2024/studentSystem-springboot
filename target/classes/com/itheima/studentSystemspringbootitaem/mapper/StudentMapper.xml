@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.studentsystemspringbootitaem.mapper.StudentMapper">
+
+    <delete id="deleteStudentByIds">
+        delete from table_name where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="seleteTotalCountByCondition" resultType="java.lang.Integer">
+        select count(*)
+        from table_name
+        <where>
+            <if test="studentName!=null and studentName!=''">
+                and studentName like #{studentName}
+            </if>
+            <if test="studentNumber!=null and studentNumber!=''">
+                and studentNumber like #{studentNumber}
+            </if>
+            <if test="gender!=null and gender!=''">
+                and gender like #{gender}
+            </if>
+        </where>
+    </select>
+    <select id="seleteByPageAndCondition" resultType="com.itheima.studentsystemspringbootitaem.pojo.Student">
+        select *
+        from table_name
+        <where>
+            <if test="student.studentName!=null and student.studentName !=''">
+                and studentName like #{student.studentName}
+            </if>
+            <if test="student.studentNumber!=null and student.studentNumber !=''">
+                and studentNumber like #{student.studentNumber}
+            </if>
+            <if test="student.gender!=null">
+                and gender like #{student.gender}
+            </if>
+        </where>
+        limit #{begin},#{size}
+    </select>
+
+</mapper>
